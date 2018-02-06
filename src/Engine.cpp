@@ -1,5 +1,6 @@
 #include <Engine.h>
 #include <SnakeGame.h>
+#include <random>
 
 namespace
 {
@@ -48,8 +49,50 @@ namespace Snake
 			LogError("Cannot fill world");
 			return false;
 		}
+
+		setApplePosition();
 		
 		return true;
+	}
+
+	void Engine::setApplePosition()
+	{
+		const int pos = (rand() % (kWidth * kHeight)) - m_length + 1;
+		int posX = 1;
+		int posY = 1;
+
+		for (int i = 0; i < pos; i++)
+		{
+			posX++;
+			if (posX >= kWidth - 1)
+			{
+				posX = 0;
+				posY++;
+				if (posY >= kHeight - 1)
+				{
+					posY = 0;
+				}
+			}
+
+			while (m_world[posX][posY] != Entity::None)
+			{
+				posX++;
+				if (posX >= kWidth - 1)
+				{
+					posX = 0;
+					posY++;
+					if (posY >= kHeight - 1)
+					{
+						posY = 0;
+					}
+				}
+			}
+		}
+
+		m_applePosX = posX;
+		m_applePosY = posY;
+
+		return;
 	}
 
 	bool Engine::fillWorld()
@@ -69,9 +112,15 @@ namespace Snake
 			}
 		}
 
+		if (!m_snake.fillWorld(m_world))
+		{
+			LogError("Cannot fill world with snake");
+			return false;
+		}
+
 		m_world[m_applePosX][m_applePosY] = Apple;
 
-		return m_snake.fillWorld(m_world);
+		return true;
 	}
 
 	Entity Engine::getEntity(const int x, const int y) const
@@ -115,28 +164,26 @@ namespace Snake
 			return false;
 		}
 
-		bool isValid = true;
 		bool withApple = false;
 
 		switch (m_world[m_snakeHeadPosX][m_snakeHeadPosY]) 
 		{
 		case SnakeBody:
-			isValid = false;
+			return false;
 			break;
 		case SnakeWithApple:
-			isValid = false;
+			return false;
 			break;
 		case SnakeEnd:
-			isValid = false;
+			return false;
 			break;
 		case Wall:
-			isValid = false;
+			return false;
 			break;
 		case Apple:
 			m_length++;
 			withApple = true;
-			m_applePosX = 15;
-			m_applePosY = 15;
+			setApplePosition();
 			break;
 		case None:
 			break;

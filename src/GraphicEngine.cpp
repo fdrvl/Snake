@@ -138,7 +138,7 @@ namespace Snake
 					SDL_RenderFillRect(m_renderer, &rect);
 					break;
 				case Entity::SnakeEnd:
-					SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
+					SDL_SetRenderDrawColor(m_renderer, 0, 255, 0, 255);
 					SDL_RenderFillRect(m_renderer, &rect);
 					break;
 				case Entity::Apple:

@@ -76,6 +76,7 @@ namespace Snake
 		bool changeDirection(const Event& event);
 
 	private:
+		void setApplePosition();
 
 		Entity** m_world;
 		int m_snakeHeadPosX;

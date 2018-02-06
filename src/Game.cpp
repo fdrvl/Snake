@@ -3,7 +3,7 @@
 
 namespace
 {
-	constexpr int kExpectedFPS = 5;
+	constexpr int kExpectedFPS = 10;
 	constexpr float kExpectedTimePerFrame = 1000.f / kExpectedFPS; // milliseconds
 }
 
