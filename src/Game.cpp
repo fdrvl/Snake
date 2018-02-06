@@ -62,16 +62,15 @@ namespace Snake
 				m_play = false;
 				break;
 			}
-
+			
+			m_engine.changeDirection(event);
+			if (event == Event::LEFTKEY)
+			{
+				m_engine.move();
+			}
 			m_engine.fillWorld();
 			m_gameWindow.display(m_engine);
 		}
-
-		//for debug
-		m_engine.move();
-		m_engine.fillWorld();
-		m_gameWindow.display(m_engine);
-		system("PAUSE");
 
 		return true;
 	}

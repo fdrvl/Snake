@@ -148,6 +148,57 @@ namespace Snake
 		return true;
 	}
 
+	bool Engine::changeDirection(const Event & event)
+	{
+		switch (event)
+		{
+		case Event::LEFTKEY:
+			switch (m_direction)
+			{
+			case Snake::UP:
+				m_direction = Direction::LEFT;
+				break;
+			case Snake::DOWN:
+				m_direction = Direction::RIGHT;
+				break;
+			case Snake::LEFT:
+				m_direction = Direction::DOWN;
+				break;
+			case Snake::RIGHT:
+				m_direction = Direction::UP;
+				break;
+			default:
+				LogError("Invalid direction");
+				return false;
+				break;
+			}
+			break;
+		case Event::RIGHTKEY:
+			switch (m_direction)
+			{
+			case Snake::UP:
+				m_direction = Direction::RIGHT;
+				break;
+			case Snake::DOWN:
+				m_direction = Direction::LEFT;
+				break;
+			case Snake::LEFT:
+				m_direction = Direction::UP;
+				break;
+			case Snake::RIGHT:
+				m_direction = Direction::DOWN;
+				break;
+			default:
+				LogError("Invalid direction");
+				return false;
+				break;
+			}
+			break;
+		}
+
+		return true;
+	}
+
 	SnakeModule::SnakeModule(SnakeModule* next, const Entity& entity, const int posX, const int posY) :
 		m_next(next),
 		m_entity(entity),

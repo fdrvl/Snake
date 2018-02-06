@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <Event.h>
 
 namespace Snake
 {
@@ -72,6 +73,7 @@ namespace Snake
 		int getWidth() const;
 		bool move();
 		bool fillWorld();
+		bool changeDirection(const Event& event);
 
 	private:
 

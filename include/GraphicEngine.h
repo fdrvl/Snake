@@ -1,19 +1,12 @@
 #ifndef GRAPHICENGINE_H
 #define GRAPHICENGINE_H
 
-#include "SDL.h"
-#include "Engine.h"
+#include <SDL.h>
+#include <Engine.h>
+#include <Event.h>
 
 namespace Snake
 {
-	enum Event
-	{
-		NONE,
-		LEFTKEY,
-		RIGHTKEY,
-		QUIT
-	};
-
 	class GameWindow
 	{
 	public:
