@@ -135,6 +135,8 @@ namespace Snake
 		case Apple:
 			m_length++;
 			withApple = true;
+			m_applePosX = 15;
+			m_applePosY = 15;
 			break;
 		case None:
 			break;
@@ -142,6 +144,8 @@ namespace Snake
 			LogError("Invalid entity for move");
 			return false;
 		}
+
+		m_world[m_snakeHeadPosX][m_snakeHeadPosY] = Entity::None;
 
 		m_snake.move(m_snakeHeadPosX, m_snakeHeadPosY, withApple);
 
@@ -210,17 +214,20 @@ namespace Snake
 
 	void SnakeModule::move()
 	{
-		if (m_next->getEntity() == Entity::SnakeEnd)
+		if (m_next)
 		{
-			if (m_entity == Entity::SnakeWithApple)
+			if (m_next->getEntity() == Entity::SnakeEnd)
 			{
-				m_entity = Entity::SnakeBody;
-			}
-			else
-			{
-				delete m_next;
-				m_next = nullptr;
-				m_entity = Entity::SnakeEnd;
+				if (m_entity == Entity::SnakeWithApple)
+				{
+					m_entity = Entity::SnakeBody;
+				}
+				else
+				{
+					delete m_next;
+					m_next = nullptr;
+					m_entity = Entity::SnakeEnd;
+				}
 			}
 		}
 

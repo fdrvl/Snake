@@ -1,5 +1,11 @@
 #include <SnakeGame.h>
+#include <chrono>
 
+namespace
+{
+	constexpr int kExpectedFPS = 5;
+	constexpr float kExpectedTimePerFrame = 1000.f / kExpectedFPS; // milliseconds
+}
 
 namespace Snake
 {
@@ -53,7 +59,8 @@ namespace Snake
 			return false;
 		}
 
-		
+		std::chrono::steady_clock::time_point timeStart = std::chrono::steady_clock::now();
+
 		while(m_play)
 		{
 			Event event = m_gameWindow.getEvent();
@@ -62,14 +69,21 @@ namespace Snake
 				m_play = false;
 				break;
 			}
-			
 			m_engine.changeDirection(event);
-			if (event == Event::LEFTKEY)
+
+			std::chrono::milliseconds elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - timeStart);
+			if (elapsedTime.count() > kExpectedTimePerFrame)
 			{
-				m_engine.move();
+				if (!m_engine.move())
+				{
+					m_play = false;
+					break;
+				}
+				m_engine.fillWorld();
+
+				m_gameWindow.display(m_engine);
+				timeStart = std::chrono::steady_clock::now();
 			}
-			m_engine.fillWorld();
-			m_gameWindow.display(m_engine);
 		}
 
 		return true;
